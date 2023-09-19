@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_api/iconoInicio.dart';
+import 'package:flutter_application_api/mainTab.dart';
 import 'package:flutter_application_api/theme/theme.dart';
 
 void main() {
@@ -16,6 +17,10 @@ class MyApp extends StatelessWidget {
       title: 'Material App',
       theme: AppTheme.lightTheme,
       home: const InicioIcono(),
+
+      routes: {
+        '/mainTab' :(context) => const MainTab(),
+      },
     );
   }
 }

@@ -1,84 +1,111 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_api/mainTab.dart';
 
-class Login extends StatefulWidget {
-  const Login({Key? key});
-
-  @override
-  State<Login> createState() => _LoginState();
-}
-
-class _LoginState extends State<Login> {
-  final usuarioController = TextEditingController();
-  final contrasenaController = TextEditingController();
+class LoginPage extends StatelessWidget {
+  const LoginPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Bienvenido'),
+        title: const Text('Iniciar sesión'),
+        backgroundColor: const Color.fromARGB(255, 101, 231, 151), 
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Card(
-                child: Center(
-                  child: Image.network(
-                    'https://static.vecteezy.com/system/resources/thumbnails/007/407/996/small/user-icon-person-icon-client-symbol-login-head-sign-icon-design-vector.jpg',
-                    height: 200,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 16),
-              TextFormField(
-                autofocus: true,
-                initialValue: '',
-                textCapitalization: TextCapitalization.words,
-                decoration: const InputDecoration(
-                  hintText: 'Nombre del usuario',
-                  labelText: 'Nombre',
-                  suffixIcon: Icon(Icons.group_outlined),
-                  icon: Icon(Icons.assignment_ind_outlined),
-                ),
-                onChanged: (value) {
-                  print('value: $value');
-                },
-              ),
-              const SizedBox(height: 16),
-              TextFormField(
-                autofocus: true,
-                initialValue: '',
-                textCapitalization: TextCapitalization.words,
-                decoration: const InputDecoration(
-                  labelText: 'Contraseña',
-                  suffixIcon: Icon(Icons.group_outlined),
-                  icon: Icon(Icons.password),
-                ),
-                onChanged: (value) {
-                  print('value: $value');
-                },
-              ),
-              const SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const MainApp()),
-                  );
-                },
-                style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 101, 231, 151)),
-                ),
-                child: const Text('Ingresar'),
-              ),
-            ],
-          ),
+      body: Center(
+        child: Column(
+          children: <Widget>[
+            const SizedBox(height: 20.0), 
+            Image.network(
+              'https://static.vecteezy.com/system/resources/thumbnails/007/407/996/small/user-icon-person-icon-client-symbol-login-head-sign-icon-design-vector.jpg', 
+              width: 200, 
+              height: 200, 
+              fit: BoxFit.contain,
+            ),
+            const SizedBox(height: 20.0), 
+            const Padding(
+              padding: EdgeInsets.all(16.0),
+              child: LoginForm(),
+            ),
+          ],
         ),
       ),
+    );
+  }
+}
+
+class LoginForm extends StatefulWidget {
+  const LoginForm({Key? key}) : super(key: key);
+
+  @override
+  // ignore: library_private_types_in_public_api
+  _LoginFormState createState() => _LoginFormState();
+}
+
+class _LoginFormState extends State<LoginForm> {
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  // ignore: unused_field
+  bool _isAuthenticated = false;
+
+  void _authenticate() {
+    String username = _usernameController.text;
+    String password = _passwordController.text;
+
+    if (username == 'user' && password == '223') {
+      setState(() {
+        _isAuthenticated = true;
+      });
+      Navigator.pushReplacementNamed(context, '/mainTab');
+    } else {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text('Error de autenticación'),
+            content: const Text('Usuario o contraseña incorrectos.'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text('Aceptar'),
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        TextFormField(
+          controller: _usernameController,
+          decoration: const InputDecoration(
+            labelText: 'Usuario',
+            icon: Icon(Icons.person), // Icono para el campo de usuario
+          ),
+        ),
+        TextFormField(
+          controller: _passwordController,
+          decoration: const InputDecoration(
+            labelText: 'Contraseña',
+            icon: Icon(Icons.lock), // Icono para el campo de contraseña
+          ),
+          obscureText: true,
+        ),
+        const SizedBox(height: 16.0),
+        ElevatedButton(
+          onPressed: _authenticate,
+          style: ElevatedButton.styleFrom(
+            backgroundColor:
+                const Color.fromARGB(255, 101, 231, 151), // Cambia el color del botón a naranja
+          ),
+          child: const Text('Iniciar sesión'),
+        ),
+      ],
     );
   }
 }

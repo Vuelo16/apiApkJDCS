@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_api/camara.dart';
 import 'package:flutter_application_api/getClientes.dart';
 import 'package:flutter_application_api/getProductos.dart';
 import 'package:flutter_application_api/getProveedores.dart';
 
 
-void main() {
-  runApp(const MainApp());
-}
-
-class MainApp extends StatelessWidget {
-  const MainApp({Key? key}) : super(key: key);
+class MainTab extends StatelessWidget {
+  const MainTab({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +16,7 @@ class MainApp extends StatelessWidget {
         length: 3,
         child: Scaffold(
           appBar: AppBar(
-            backgroundColor: Color.fromARGB(255, 101, 231, 151),
+            backgroundColor: const Color.fromARGB(255, 101, 231, 151),
             bottom: const TabBar(
               tabs: [
                 Tab(text: 'Productos'),
@@ -29,15 +26,26 @@ class MainApp extends StatelessWidget {
             ),
             title: const Text('Bienvenido a Valicor'),
           ),
-          body: const Column(
+          body: Column(
             children: [
-            
-              Expanded(
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => MyHomePage()),
+                  );
+                },
+                style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(const Color.fromARGB(255, 101, 231, 151)),
+                ),
+                child: const Text('Abrir Cámara'), // Cambia el texto según lo necesites
+              ),
+              const Expanded(
                 child: TabBarView(
                   children: [
-                    Home(),
+                    Home(),                    
                     ProveedorApi(),
-                    ClientesAPi()
+                    ClientesAPi(),
                   ],
                 ),
               ),
