@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_api/login.dart';
+import 'package:flutter_application_api/loginNuevo.dart';
 
 
 
@@ -18,11 +18,11 @@ class InicioIcono extends StatelessWidget {
             onPressed: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => const LoginPage(),
+                  builder: (context) => const LoginViewComponent(),
                 ),
               );
             },
-            backgroundColor: Color.fromARGB(255, 197, 31, 31),
+            backgroundColor: const Color.fromARGB(255, 101, 231, 151),
             child: const Icon(Icons.account_balance_sharp, size: 40 ) ,
           ),
         ],
